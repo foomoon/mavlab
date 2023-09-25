@@ -11,7 +11,7 @@ part of many standard data exchange formats such as IGES, STEP and PHIGS.
 
 For a detailed explanation of NURBS and how to manipulate them, I can
 strongly recommend the book by Les Piegl and Wayne Tiller called 'The NURBS
-Book' ISBN 3-540-61545-8. Please note that the 'C' code algorithms is this
+Book' ISBN 3-540-61545-8. Please note that the 'C' code algorithms in this
 library are modified versions of the pseudo-code within the book.
 
 Contributions to the library

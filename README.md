@@ -1,10 +1,29 @@
 # mavlab
-Repo for wing generator tool.  
+Repo for mavlab PARAMETRIC SOFTWARE TOOL FOR THE DESIGN AND MANUFACTURING OF MICRO AIR VEHICLES.
+
+This includes tools for computer aided design (CAD), aerodynamic analysis (via AVL), finite element analysis (FEA) and computer aided machining (CAM).
 
 ![MAVLAB GUI](https://raw.githubusercontent.com/foomoon/mavlab/main/img/mavlab-gui.png)
 
 Note: This was last tested in Matlab R2006b.  YMMV on later versions.  
 
+## Install
+1. Clone Repository
+```bash
+git clone https://github.com/foomoon/mavlab.git
+```
+In Matlab, navigate to the mavlab "/src/dc" directory
+```matlab
+installmavlab
+```
+
+## Run GUI
+Once mavlab paths are correctly added through the installmavlab script, the GUI can be initiated with the following command
+```matlab
+mavlab
+```
+## Run from command line
+Mavlab can be run without the GUI using the dcBuild function.  This requires the construction of a "wing" struct object to be input into dcBuild.  See below for more details.  Take a look in the "/src/dc/save" folder for *.mat files which can be loaded into the workspace as examples to work from.
 ## File Summary
 
 Below is a brief summary of the primary files and functions
@@ -210,3 +229,8 @@ nrb = nrbWing(wing) will create a struct variable defining a NURBS surface for t
 igesout(nrb,filename) % will export the wing to an IGES file that can be read by most CAD programs (such as Mechanical Desktop, ProE, Mastercam, Solid Works, etc).  Exporting to IGES and opening in Mastercam is the preferred method for CNC applications involving a milling machine other than SERVO.
 
 ```
+
+## Other code
+There are a number of other tools and advanced routines which may or not be accessable through the GUI.  For example, there is a full compliment of meshing tools and Finite Element Analysis capabilities specificially designed to analyze composite structures generated through mavlab.  Some of these capabilities are accessible in the "sub" folder and may or may not have help documentation associated.  
+
+![Iterative Analysis](https://raw.githubusercontent.com/foomoon/mavlab/main/img/iterative-analysis.png)
