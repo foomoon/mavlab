@@ -1,0 +1,12 @@
+function pseudotransp(file)
+
+[img,map,alpha] = imread(file);
+
+if isa(img,'uint8')
+    img = double(img)/255;
+    alpha = double(alpha)/255;
+end
+
+[m,n]=size(alpha);
+
+bc = 

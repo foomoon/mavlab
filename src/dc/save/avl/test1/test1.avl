@@ -1,0 +1,74 @@
+test1
+
+#Mach
+
+0.0000
+#IYsym   IZsym   Zsym
+0.0000 0.0000 0.0000
+#Sref    Cref    Bref
+133.3082 5.8270 24.0000
+#Xref    Yref    Zref
+0.0000 0.0000 0.0000
+
+#====================================================================
+SURFACE
+Main Wing
+#Nchordwise  Cspace   Nspanwise   Sspace
+8.000        1.000    12.000       1.000
+#
+YDUPLICATE
+0
+#
+SCALE
+#X     Y      Z
+1.0000 1.0000 1.0000
+#
+TRANSLATE
+#X     Y      Z
+0.0000 0.0000 0.0000
+#
+ANGLE
+0.00
+
+#-------------------------------------------------------------
+SECTION
+#Xle    Yle     Zle     Chord   Ainc    Nspanwise Sspace
+0.0000  -0.0000  0.0001  7.0000  0.0045
+AFILE
+test1\AIRFOILS\1.dat
+
+#-------------------------------------------------------------
+SECTION
+#Xle    Yle     Zle     Chord   Ainc    Nspanwise Sspace
+0.1003  3.7082  0.0480  6.5989  0.0045
+AFILE
+test1\AIRFOILS\2.dat
+
+#-------------------------------------------------------------
+SECTION
+#Xle    Yle     Zle     Chord   Ainc    Nspanwise Sspace
+0.3628  7.0534  0.1735  5.5490  0.0045
+AFILE
+test1\AIRFOILS\3.dat
+
+#-------------------------------------------------------------
+SECTION
+#Xle    Yle     Zle     Chord   Ainc    Nspanwise Sspace
+0.6872  9.7082  0.3286  4.2511  0.0045
+AFILE
+test1\AIRFOILS\4.dat
+
+#-------------------------------------------------------------
+SECTION
+#Xle    Yle     Zle     Chord   Ainc    Nspanwise Sspace
+0.9497  11.4127  0.4541  3.2011  0.0045
+AFILE
+test1\AIRFOILS\5.dat
+
+#-------------------------------------------------------------
+SECTION
+#Xle    Yle     Zle     Chord   Ainc    Nspanwise Sspace
+1.0500  12.0000  0.5020  2.8000  0.0045
+AFILE
+test1\AIRFOILS\6.dat
+

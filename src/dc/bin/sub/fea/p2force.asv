@@ -1,0 +1,17 @@
+function F = p2force(tri,X,Y,dP)
+
+M = eye(3)+1;
+
+X = X(tri(:,1:3))*2.54/100;
+Y = Y(tri(:,1:3))*2.54/100;
+
+N_elements = size
+for i = 1:N_elements
+    
+    A = polyarea(X(i,:),Y(i,:));    
+    Fm = (A/12)*dP(i,1:3)*M;     
+    Fnorm(tri(i,1:3)) = Fnorm(tri(i,1:3)) + Fm; %#ok<AGROW>
+    
+end
+
+F(DOF(:,1),1) = Fnorm(:);

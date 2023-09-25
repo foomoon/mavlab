@@ -1,0 +1,205 @@
+function [srf]=nrbloft(crv)
+% Loft Univariate NURBS curves into a NURBS surface
+
+% ensure both curves have a common degree
+crv = commonDegree(crv);
+
+% merge the knot vectors, to obtain a common knot vector
+crv = mergeKnots(crv);
+
+% Do knot insertion where necessary in each curve
+for i=1:nn
+    coefs(:,:,i) = crv(i).coefs;
+end
+uknots = crv(1).knots;
+
+% % Make V-direction 4th order (or less if necessary)
+% order = min(nn,4);
+% n = order + nn - 2*(order-1);
+% 
+% % Make a uniform knot sequence
+% knt2 = [zeros(1,order-1) linspace(0,1,n) ones(1,order-1)];
+
+
+
+a.coefs = coefs;
+[x,y,z]=nrbnet(a);
+
+for i=1:size(x,1)
+    v(i) = nrbinterp(x(i,:),y(i,:),z(i,:));
+end
+% ensure both curves have a common degree
+v = commonDegree(v);
+
+% merge the knot vectors, to obtain a common knot vector
+v = mergeKnots(v);
+
+vknots = v(1).knots;
+
+for i=1:length(v)
+        c(:,:,i) = v(i).coefs;
+end
+srf = nrbmak(c,{vknots uknots});
+srf = nrbtransp(srf);
+
+% srf = v;
+return
+
+
+
+
+
+function crv = commonDegree(crv)
+nn = length(crv);
+% d = max(cell2vec({crv.order}));
+for i=1:nn
+    d(i) = crv(i).order;
+end
+d = max(d);
+for i=1:nn,
+    crv(i) = nrbdegelev(crv(i), d - crv(i).order);
+end
+
+
+function crv = mergeKnots(crv)
+k = ({crv.knots});
+ku = unique(cell2vec(k));
+n = length(ku);
+ka = cell(1,nn);
+for i = 1:n
+    for j=1:nn
+        ii(j) = length(find(k{j} == ku(i)));
+    end
+    m = max(ii);
+    for j=1:nn
+        ka{j} = [ka{j} ku(i)*ones(1,m-ii(j))];
+    end
+end
+
+% Do knot insertion where necessary in each curve
+for i=1:nn
+    crv(i) = nrbkntins(crv(i), ka{i});
+%     coefs(:,:,i) = crv(i).coefs;
+end
+
+function v = cell2vec(c)
+n = numel(c);
+v = [];
+for i=1:n
+    t = c{i};
+    t = t(:);
+    v = [v; t];
+end
+
+
+function srf = nrbloft1(r1,r2,t)
+
+% raise all surfaces to a common degree
+du = max([r1.order(1), r2.order(1), t.order(1)]);
+dv = max([r1.order(2), r2.order(2), t.order(2)]);
+r1 = nrbdegelev(r1, [du - r1.order(1), dv - r1.order(2)]);
+r2 = nrbdegelev(r2, [du - r2.order(1), dv - r2.order(2)]);
+t  = nrbdegelev(t,  [du - t.order(1),  dv - t.order(2)]);
+
+% merge the knot vectors, to obtain a common knot vector
+
+% U knots
+k1 = r1.knots{1};
+k2 = r2.knots{1};
+k3 = t.knots{1};
+k = unique([k1 k2 k3]);
+n = length(k);
+kua = [];
+kub = [];
+kuc = [];
+for i = 1:n
+  i1 = length(find(k1 == k(i)));
+  i2 = length(find(k2 == k(i)));
+  i3 = length(find(k3 == k(i)));
+  m = max([i1, i2, i3]);
+  kua = [kua k(i)*ones(1,m-i1)];  
+  kub = [kub k(i)*ones(1,m-i2)];
+  kuc = [kuc k(i)*ones(1,m-i3)];
+end  
+
+% V knots
+k1 = r1.knots{2};
+k2 = r2.knots{2};
+k3 = t.knots{2};
+k = unique([k1 k2 k3]);
+n = length(k);
+kva = [];
+kvb = [];
+kvc = [];
+for i = 1:n
+  i1 = length(find(k1 == k(i)));
+  i2 = length(find(k2 == k(i)));
+  i3 = length(find(k3 == k(i)));
+  m = max([i1, i2, i3]);
+  kva = [kva k(i)*ones(1,m-i1)];  
+  kvb = [kvb k(i)*ones(1,m-i2)];
+  kvc = [kvc k(i)*ones(1,m-i3)];
+end  
+
+r1 = nrbkntins(r1, {kua, kva});
+r2 = nrbkntins(r2, {kub, kvb});
+t  = nrbkntins(t,  {kuc, kvc});
+
+% figure
+% hold on
+% g = [20 20];
+% nrbplot(r1,g)
+% nrbplot(r2,g)
+% nrbplot(t,g)
+% return
+
+% combine coefficient to construct Coons surface
+for i=1:4
+    coefs(i,:,:) = (r1.coefs(i,:,:) + r2.coefs(i,:,:)) - t.coefs(i,:,:);
+end
+
+srf = nrbmak(coefs, r1.knots);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+% Cut after the "return" in nrbloft
+% % Create Surface for U direction
+% r1 = nrbmak(coefs, {crv(1).knots knt2});
+% 
+% % Build A Curve around Edge (No Extra information about peremeter V Data)
+% edgeCoefa = squeeze(r1.coefs(1:3,1,:));
+% edgeCoefb = squeeze(r1.coefs(1:3,end,:));
+% 
+% % Create Surface for V direction
+% ea = nrbinterp(edgeCoefa);
+% eb = nrbinterp(edgeCoefb);
+% r2 = nrbruled(ea,eb);
+% r2 = nrbtransp(r2);
+% 
+% % Create Intermediate surface for merging U,V
+% eca = nrbmak(edgeCoefa,knt2);
+% ecb = nrbmak(edgeCoefb,knt2);
+% t = nrbruled(eca,ecb);
+% t = nrbtransp(t);
+% 
+% % Slight modification of nrbcoons 
+% srf = nrbloft1(r1,r2,t);
+
