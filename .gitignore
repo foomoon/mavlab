@@ -1,0 +1,33 @@
+# Ignore MATLAB autosave files
+*.asv
+*.m~
+*.asv~
+
+# Ignore Simulink autosave files
+*.mdl~
+*.slx~
+*.slddc
+
+# Ignore generated code and files from MATLAB and Simulink
+slprj/
+codegen/
+_mcr_cache/
+
+# Ignore MATLAB project-specific files
+.matlab/
+.vscode/
+
+# Ignore user-specific settings and preferences
+# *.bak
+# *.log
+# *.ini
+# *.sh_history
+
+# Ignore compiled or binary files
+# *.mex*
+# *.dll
+# *.exe
+
+# Ignore miscellaneous files
+Thumbs.db
+.DS_Store
