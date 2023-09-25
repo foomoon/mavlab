@@ -1,5 +1,0 @@
-function val = getworkpln(h,param)
-
-switch param
-    case 'color'
-    case 'pos
