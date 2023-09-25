@@ -3,7 +3,6 @@ Repo for wing generator tool.
 
 ![MAVLAB GUI](https://github.com/foomoon/mavlab/img/mavlab-gui.png)
 
-
 Note: This was last tested in Matlab R2006b.  YMMV on later versions.  
 
 ## File Summary
